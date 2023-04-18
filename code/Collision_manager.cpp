@@ -6,24 +6,24 @@
 
 void Collision_manager::check_circle_sides(Circle& circle, Wall& square_floor, Wall& square_right, Wall& square_left)
 {
-	if (circle.position.y + circle.radius > square_floor.position.y)
+	if (circle.get_position().y + circle.radius > square_floor.get_position().y)
 	{
-		circle.speed.y = -circle.speed.y * circle.restitution * square_floor.bounciness;
-		circle.position.y = square_floor.position.y - circle.radius;
+		circle.get_speed().y = -circle.get_speed().y * circle.restitution * square_floor.bounciness;
+		circle.set_position({ circle.get_position().x, square_floor.get_position().y - circle.radius}).y;
 		circle.radius = circle.radius * 0.85;
 	}
 
-	if (circle.position.x + circle.radius > square_right.position.x)
+	if (circle.get_position().x + circle.radius > square_right.get_position().x)
 	{
-		circle.speed.x = -circle.speed.x * circle.restitution;
-		circle.position.x = square_right.position.x - circle.radius;
+		circle.get_speed().x = -circle.get_speed().x * circle.restitution;
+		circle.get_position().x = square_right.get_position().x - circle.radius;
 		circle.radius = circle.radius * 0.85;
 	}
 
-	if (circle.position.x - circle.radius < square_left.position.x)
+	if (circle.get_position().x - circle.radius < square_left.get_position().x)
 	{
-		circle.speed.x = -circle.speed.x * circle.restitution;
-		circle.position.x = square_left.position.x + circle.radius;
+		circle.get_speed().x = -circle.get_speed().x * circle.restitution;
+		circle.get_position().x = square_left.get_position().x + circle.radius;
 		circle.radius = circle.radius * 0.85;
 	}
 }

@@ -9,13 +9,50 @@
 
 using namespace sf;
 
-struct Wall
+class Geometry 
 {
+
+protected:
+
 	Vector2f position = { 0.f, 0.f };
 	Vector2f speed = { 0.f, 0.f };
-	float bounciness = 1.5f;
+	Color color;
 	float width;
 	float height;
+
+public:
+
+	void set_speed(Vector2f new_speed)
+	{
+		speed = new_speed;
+	}
+
+	void set_position(Vector2f new_position)
+	{
+		position = new_position;
+	}
+
+	Vector2f get_position() 
+	{
+		return position;
+	}
+
+	Vector2f get_speed()
+	{
+		return speed;
+	}
+};
+
+struct Elevator_platform : public Geometry
+{
+	Vector2f move_acceleration = { 0.f, 1.f };
+	float speed_multiplier = 2.f;
+	bool is_descending;
+};
+
+struct Wall : public Geometry
+{
+	float bounciness = 1.5f;
 
 	Wall(float given_width, float given_height, const Vector2f& initial_positon)
 	{
@@ -36,11 +73,9 @@ struct Wall
 	}
 };
 
-struct Circle
+struct Circle : public Geometry
 {
 	Vector2f gravity = { 0, 150.f };
-	Vector2f position = { 0.f, 0.f };
-	Vector2f speed = { 80.f, 200.f };
 	float    restitution = 0.6f;
 	float    radius;
 	float	 mass = 0.f;
@@ -50,6 +85,7 @@ struct Circle
 		position = initial_position;
 		radius = given_radius;
 		mass = item_mass;
+		speed = { 80.f, 200.f };
 	}
 
 	void update(float t)
